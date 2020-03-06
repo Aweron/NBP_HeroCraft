@@ -120,7 +120,7 @@ namespace NBP_Prototype
 
         private void listResult_SelectedIndexChanged(object sender, EventArgs e)
         {
-            selectedCharacter = characters.Find(x => x == listResult.SelectedItem);
+            selectedCharacter = allCharacters.Find(x => x == listResult.SelectedItem);
             if (selectedCharacter != null)
                 DisplayCharacter(selectedCharacter);
         }

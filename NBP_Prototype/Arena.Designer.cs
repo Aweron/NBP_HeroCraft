@@ -70,6 +70,7 @@
             this.picPlayer1.Location = new System.Drawing.Point(12, 32);
             this.picPlayer1.Name = "picPlayer1";
             this.picPlayer1.Size = new System.Drawing.Size(200, 200);
+            this.picPlayer1.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
             this.picPlayer1.TabIndex = 0;
             this.picPlayer1.TabStop = false;
             // 
@@ -108,6 +109,7 @@
             this.picPlayer2.Location = new System.Drawing.Point(458, 32);
             this.picPlayer2.Name = "picPlayer2";
             this.picPlayer2.Size = new System.Drawing.Size(200, 200);
+            this.picPlayer2.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
             this.picPlayer2.TabIndex = 8;
             this.picPlayer2.TabStop = false;
             // 
@@ -126,6 +128,7 @@
             this.txtCombatLog.Location = new System.Drawing.Point(218, 32);
             this.txtCombatLog.Multiline = true;
             this.txtCombatLog.Name = "txtCombatLog";
+            this.txtCombatLog.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
             this.txtCombatLog.Size = new System.Drawing.Size(234, 288);
             this.txtCombatLog.TabIndex = 9;
             // 

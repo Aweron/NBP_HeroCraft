@@ -14,6 +14,8 @@ namespace NBP_Prototype
     {
         private Character player1, player2;
         private CharacterClass player1Class, player2Class;
+        private bool isPlayer1sTurn;
+
         RedisManager redis;
 
         public Arena(Character player1, Character player2)
@@ -55,10 +57,6 @@ namespace NBP_Prototype
             btnSecondary1.Text = player1Class.SecondaryName;
             btnSecondary2.Text = player2Class.SecondaryName;
 
-            // Combat Log
-            if (redis.MatchIsInProgress())
-                txtCombatLog.Text = redis.GetCombatLog();
-
             // Check if match is started for the first time
             if (!redis.MatchIsInProgress())
             {
@@ -88,6 +86,9 @@ namespace NBP_Prototype
                 }
             }
 
+            // Combat Log  
+            txtCombatLog.Text = redis.GetCombatLog();
+
             // Action
             lblAction.Text = redis.GetAction().ToString();
 
@@ -103,20 +104,50 @@ namespace NBP_Prototype
 
         private void btnEndRound_Click(object sender, EventArgs e)
         {
+            isPlayer1sTurn = redis.GetTurn();
+
             btnPrimary1.Enabled = !btnPrimary1.Enabled;
             btnSecondary1.Enabled = !btnSecondary1.Enabled;
             btnPrimary2.Enabled = !btnPrimary2.Enabled;
             btnSecondary2.Enabled = !btnSecondary2.Enabled;
+
+            if (isPlayer1sTurn)
+            {
+                if (redis.CheckIfEffectActive(isPlayer1sTurn, "Incapacitated"))
+                    player1Class.RollSpellSave((int)Stat.Cha, (int)Stat.Wis, player2Class);
+            }
+            else if (redis.CheckIfEffectActive(isPlayer1sTurn, "Incapacitated"))
+                player2Class.RollSpellSave((int)Stat.Cha, (int)Stat.Wis, player1Class);
+
+            redis.IncrementAction();
+            RefreshUI();
         }
 
         private void btnPrimary1_Click(object sender, EventArgs e)
         {
             player1Class.PrimaryAttack(true, player2Class);
+            RefreshUI();
+
         }
 
         private void btnPrimary2_Click(object sender, EventArgs e)
         {
             player2Class.PrimaryAttack(false, player1Class);
+            RefreshUI();
         }
+
+        private void RefreshUI()
+        {
+            lblCurrentHP1.Text = redis.GetHP(true).ToString();
+            lblCurrentHP2.Text = redis.GetHP(false).ToString();
+
+            lblCurrentResource1.Text = redis.GetResource(true).ToString();
+            lblCurrentResource2.Text = redis.GetResource(false).ToString();
+
+            lblAction.Text = redis.GetAction().ToString();
+
+            txtCombatLog.Text = redis.GetCombatLog();
+        }
+
     }
 }

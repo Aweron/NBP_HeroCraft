@@ -17,17 +17,18 @@ namespace NBP_Prototype
 
         public void MatchStart(CharacterClass player1Class, CharacterClass player2Class)
         {
-            redis.Set<int>("player1HP", player1Class.MaxHealth);
-            redis.Set<int>("player2HP", player2Class.MaxHealth);
+            redis.Set("player1HP", player1Class.MaxHealth);
+            redis.Set("player2HP", player2Class.MaxHealth);
 
-            redis.Set<int>("player1Resource", player1Class.MaxResource);
-            redis.Set<int>("player2Resource", player2Class.MaxResource);
+            redis.Set("player1Resource", player1Class.MaxResource);
+            redis.Set("player2Resource", player2Class.MaxResource);
 
-            redis.Set<int>("action", 1);
+            redis.Set("action", 1);
 
-            redis.Set<CharacterClass>("player1Class", player1Class); // Use mongo ID instead, get character from mongo if program ends prematurely.
-            redis.Set<CharacterClass>("player2Class", player2Class); // ^
+            //redis.Set("player1Class", player1Class); // Use mongo ID instead, get character from mongo if program ends prematurely.
+            //redis.Set("player2Class", player2Class); // ^
 
+            redis.RemoveAllFromList("combatLog");
             redis.PushItemToList("combatLog", "Round started. Fight!");
 
             redis.Set<bool>("matchInProgress", true);
@@ -35,7 +36,12 @@ namespace NBP_Prototype
 
         public void SetTurn(bool isPlayer1sTurn)
         {
-            redis.Set<bool>("player1sTurn", true); ;
+            redis.Set("player1sTurn", true); ;
+        }
+
+        public bool GetTurn()
+        {
+            return redis.Get<bool>("player1sTurn"); ;
         }
 
         public bool MatchIsInProgress()
@@ -45,7 +51,7 @@ namespace NBP_Prototype
 
         public void MatchOver()
         {
-            redis.Set<bool>("matchInProgress", false);
+            redis.Set("matchInProgress", false);
         }
 
         #endregion
@@ -73,7 +79,7 @@ namespace NBP_Prototype
             hp -= damage;
             if (hp < 0)
                 hp = 0;
-            redis.Set<int>(opponent, hp); // HP after taking damage
+            redis.Set(opponent, hp); // HP after taking damage
             AddToCombatLog(characterName + " has dealt " + damage + " damage.");
             DamageTracker(characterName, damage);
             if (hp == 0)
@@ -92,7 +98,7 @@ namespace NBP_Prototype
             hp += healAmount;
             if (hp > characterClass.MaxHealth)
                 hp = characterClass.MaxHealth;
-            redis.Set<int>(player, hp);
+            redis.Set(player, hp);
             AddToCombatLog(characterClass.Character.Name + " healed themselves for " + healAmount + " hitpoints.");
         }
 
@@ -203,6 +209,8 @@ namespace NBP_Prototype
 
         #endregion
 
+        #region Combat Log
+
         public void AddToCombatLog(string text)
         {
             redis.PushItemToList("combatLog", text);
@@ -214,11 +222,15 @@ namespace NBP_Prototype
             List<string> list = redis.GetAllItemsFromList("combatLog");
             foreach (string item in list)
             {
-                output += item + "\n";
+                output += item + Environment.NewLine;
             }
             return output;
         }
-        
+
+        #endregion
+
+        #region Damage Tracker
+
         public void DamageTracker(string characterName, int damage)
         {
             int oldDamage = (int)redis.GetItemScoreInSortedSet("damageTracker", characterName);
@@ -226,5 +238,8 @@ namespace NBP_Prototype
         }
 
         // TODO: Display/Get Damage Tracker
+
+        #endregion
+
     }
 }
