@@ -85,6 +85,10 @@ namespace NBP_Prototype
                     //btnSecondary2.Enabled = true;
                 }
             }
+            else
+            {
+                
+            }
 
             // Combat Log  
             txtCombatLog.Text = redis.GetCombatLog();
@@ -105,27 +109,87 @@ namespace NBP_Prototype
         private void btnEndRound_Click(object sender, EventArgs e)
         {
             isPlayer1sTurn = redis.GetTurn();
+            redis.SetTurn(!isPlayer1sTurn);
+            //isPlayer1sTurn = !isPlayer1sTurn;
 
-            btnPrimary1.Enabled = !btnPrimary1.Enabled;
-            btnSecondary1.Enabled = !btnSecondary1.Enabled;
-            btnPrimary2.Enabled = !btnPrimary2.Enabled;
-            btnSecondary2.Enabled = !btnSecondary2.Enabled;
-
-            if (isPlayer1sTurn)
+            if (redis.GetTurn()) // Player 1's Turn
             {
-                if (redis.CheckIfEffectActive(isPlayer1sTurn, "Incapacitated"))
-                    player1Class.RollSpellSave((int)Stat.Cha, (int)Stat.Wis, player2Class);
-            }
-            else if (redis.CheckIfEffectActive(isPlayer1sTurn, "Incapacitated"))
-                player2Class.RollSpellSave((int)Stat.Cha, (int)Stat.Wis, player1Class);
+                lblTurn.Text = "<< Player 1's turn.";
 
-            redis.IncrementAction();
+                btnPrimary2.Enabled = false;
+                btnSecondary2.Enabled = false;
+
+                if (redis.CheckIfEffectActive(isPlayer1sTurn, "Incapacitated"))
+                {
+                    if (player1Class.RollSpellSave((int)Stat.Cha, (int)Stat.Wis, player2Class))
+                    {
+                        redis.IncrementAction();
+                        redis.AddToCombatLog(player1.Name + " is no longer incapacitated!");
+
+                        btnPrimary1.Enabled = true;
+                        btnSecondary1.Enabled = true;
+                    }
+                    else
+                    {
+                        redis.AddToCombatLog(player1.Name + " is still incapacitated! They lose their turn.");
+
+                        btnPrimary1.Enabled = false;
+                        btnSecondary1.Enabled = false;
+                    }
+                }
+                else
+                {
+                    redis.IncrementAction();
+                    redis.AddToCombatLog(player1.Name + "'s turn.");
+
+                    btnPrimary1.Enabled = true;
+                    btnSecondary1.Enabled = true;
+                }
+            }
+            else // Player 2's Turn
+            {
+                lblTurn.Text = "Player 2's turn. >>";
+
+                btnPrimary1.Enabled = false;
+                btnSecondary1.Enabled = false;
+                
+
+                if (redis.CheckIfEffectActive(isPlayer1sTurn, "Incapacitated"))
+                {
+                    if (player2Class.RollSpellSave((int)Stat.Cha, (int)Stat.Wis, player1Class))
+                    {
+                        redis.IncrementAction();
+                        redis.AddToCombatLog(player1.Name + " is no longer incapacitated!");
+
+                        btnPrimary2.Enabled = true;
+                        btnSecondary2.Enabled = true;
+                    }
+                    else
+                    {
+                        redis.AddToCombatLog(player1.Name + " is still incapacitated! They lose their turn.");
+
+                        btnPrimary2.Enabled = false;
+                        btnSecondary2.Enabled = false;
+                    }
+                }
+                else
+                {
+                    redis.IncrementAction();
+                    redis.AddToCombatLog(player1.Name + "'s turn.");
+
+                    btnPrimary2.Enabled = true;
+                    btnSecondary2.Enabled = true;
+                }
+            }
+
             RefreshUI();
         }
 
         private void btnPrimary1_Click(object sender, EventArgs e)
         {
             player1Class.PrimaryAttack(true, player2Class);
+            btnPrimary1.Enabled = false;
+
             RefreshUI();
 
         }
@@ -133,7 +197,30 @@ namespace NBP_Prototype
         private void btnPrimary2_Click(object sender, EventArgs e)
         {
             player2Class.PrimaryAttack(false, player1Class);
+            btnPrimary2.Enabled = false;
             RefreshUI();
+        }
+
+        private void btnSurr1_Click(object sender, EventArgs e)
+        {
+            if (DialogResult.Yes == MessageBox.Show("Are you sure you wish to surrender?", "Warning", MessageBoxButtons.YesNo, MessageBoxIcon.Warning))
+            {
+                redis.MatchOver();
+
+                MessageBox.Show("Player 2 wins!", "Game Over!", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                this.Close();
+            }
+        }
+
+        private void btnSurr2_Click(object sender, EventArgs e)
+        {
+            if (DialogResult.Yes == MessageBox.Show("Are you sure you wish to surrender?", "Warning", MessageBoxButtons.YesNo, MessageBoxIcon.Warning))
+            {
+                redis.MatchOver();
+
+                MessageBox.Show("Player 1 wins!", "Game Over!", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                this.Close();
+            }
         }
 
         private void RefreshUI()
@@ -148,6 +235,25 @@ namespace NBP_Prototype
 
             txtCombatLog.Text = redis.GetCombatLog();
         }
+
+        private void IsGameOver()
+        {
+            if (redis.GetHP(true) == 0)
+            {
+                redis.MatchOver();
+
+                MessageBox.Show("Player 2 wins!", "Game Over!", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                this.Close();
+            }
+            else if (redis.GetHP(false) == 0)
+            {
+                redis.MatchOver();
+
+                MessageBox.Show("Player 1 wins!", "Game Over!", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                this.Close();
+            }
+        }
+
 
     }
 }

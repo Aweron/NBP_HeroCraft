@@ -296,11 +296,13 @@
             // 
             // txtDescription
             // 
+            this.txtDescription.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.txtDescription.Location = new System.Drawing.Point(369, 230);
             this.txtDescription.Multiline = true;
             this.txtDescription.Name = "txtDescription";
             this.txtDescription.ReadOnly = true;
-            this.txtDescription.Size = new System.Drawing.Size(353, 157);
+            this.txtDescription.Size = new System.Drawing.Size(403, 157);
             this.txtDescription.TabIndex = 92;
             // 
             // label4
@@ -469,8 +471,9 @@
             // 
             // linkSignOut
             // 
+            this.linkSignOut.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.linkSignOut.AutoSize = true;
-            this.linkSignOut.Location = new System.Drawing.Point(676, 9);
+            this.linkSignOut.Location = new System.Drawing.Point(726, 9);
             this.linkSignOut.Name = "linkSignOut";
             this.linkSignOut.Size = new System.Drawing.Size(46, 13);
             this.linkSignOut.TabIndex = 8;
@@ -500,11 +503,13 @@
             // 
             // btnFight
             // 
-            this.btnFight.Location = new System.Drawing.Point(647, 393);
+            this.btnFight.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+            this.btnFight.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnFight.Location = new System.Drawing.Point(697, 393);
             this.btnFight.Name = "btnFight";
             this.btnFight.Size = new System.Drawing.Size(75, 56);
             this.btnFight.TabIndex = 95;
-            this.btnFight.Text = "button3";
+            this.btnFight.Text = "Fight!";
             this.btnFight.UseVisualStyleBackColor = true;
             this.btnFight.Click += new System.EventHandler(this.btnFight_Click);
             // 
@@ -530,7 +535,7 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(734, 461);
+            this.ClientSize = new System.Drawing.Size(784, 461);
             this.Controls.Add(this.lblPlayer2);
             this.Controls.Add(this.lblPlayer1);
             this.Controls.Add(this.btnFight);

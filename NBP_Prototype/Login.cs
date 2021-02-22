@@ -25,9 +25,9 @@ namespace NBP_Prototype
             string pass = txtNewPass.Text;
 
             if (user == "" || pass == "")
-                System.Windows.Forms.MessageBox.Show("Enter username and password.", "Error");
+                System.Windows.Forms.MessageBox.Show("Enter username and password.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Information);
             else if (mongo.ProfileExistsInDB(user))
-                System.Windows.Forms.MessageBox.Show("That username is already taken.", "Error");
+                System.Windows.Forms.MessageBox.Show("That username is already taken.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Information);
             else
             {
                 Profile profile = new Profile(user, pass);
@@ -48,7 +48,7 @@ namespace NBP_Prototype
             string pass = txtPass.Text;
 
             if (user == "" || pass == "")
-                System.Windows.Forms.MessageBox.Show("Enter username and password.", "Error");
+                System.Windows.Forms.MessageBox.Show("Enter username and password.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Information);
             else if (mongo.ProfileExistsInDB(user))
                 if (mongo.ProfileAuthentication(user, pass))
                 {
@@ -60,9 +60,9 @@ namespace NBP_Prototype
                     this.Show();
                 }
                 else
-                    System.Windows.Forms.MessageBox.Show("Password is incorrect.", "Error");
+                    System.Windows.Forms.MessageBox.Show("Password is incorrect.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Information);
             else
-                System.Windows.Forms.MessageBox.Show("Username is incorrect or doesn't exist.", "Error");
+                System.Windows.Forms.MessageBox.Show("Username is incorrect or doesn't exist.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Information);
         }
     }
 }

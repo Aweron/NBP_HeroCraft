@@ -36,12 +36,12 @@ namespace NBP_Prototype
 
         public void SetTurn(bool isPlayer1sTurn)
         {
-            redis.Set("player1sTurn", true); ;
+            redis.Set("player1sTurn", isPlayer1sTurn);
         }
 
         public bool GetTurn()
         {
-            return redis.Get<bool>("player1sTurn"); ;
+            return redis.Get<bool>("player1sTurn");
         }
 
         public bool MatchIsInProgress()
@@ -51,7 +51,8 @@ namespace NBP_Prototype
 
         public void MatchOver()
         {
-            redis.Set("matchInProgress", false);
+            //redis.Set("matchInProgress", false);
+            redis.FlushDb();
         }
 
         #endregion
@@ -81,7 +82,7 @@ namespace NBP_Prototype
                 hp = 0;
             redis.Set(opponent, hp); // HP after taking damage
             AddToCombatLog(characterName + " has dealt " + damage + " damage.");
-            DamageTracker(characterName, damage);
+            //DamageTracker(characterName, damage);
             if (hp == 0)
                 return true;
             else return false;
@@ -229,6 +230,7 @@ namespace NBP_Prototype
 
         #endregion
 
+        /*
         #region Damage Tracker
 
         public void DamageTracker(string characterName, int damage)
@@ -240,6 +242,6 @@ namespace NBP_Prototype
         // TODO: Display/Get Damage Tracker
 
         #endregion
-
+        */
     }
 }
