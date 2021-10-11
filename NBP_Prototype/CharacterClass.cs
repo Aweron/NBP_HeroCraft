@@ -19,6 +19,7 @@ namespace NBP_Prototype
         public string PrimaryName { get; set; }
         public string SecondaryName { get; set; }
 
+        public static Random roll = new Random();
 
         public CharacterClass(Character character)
         {
@@ -129,7 +130,6 @@ namespace NBP_Prototype
 
         public int RollDie(int die)
         {
-            Random roll = new Random();
             return roll.Next(1, die);
         }
 
@@ -179,7 +179,7 @@ namespace NBP_Prototype
             }
         }
 
-        public void PrimaryAttack(bool isPlayer1, CharacterClass opponent)
+        public bool PrimaryAttack(bool isPlayer1, CharacterClass opponent) // returns true if killing blow
         {
             RedisManager redis = new RedisManager();
             int damage = 0;
@@ -200,7 +200,7 @@ namespace NBP_Prototype
                         damage = RollDamage(1, 8, (int)Stat.Dex, 0); // 1d8 + DEX
                     break;
                 case "Cleric":
-                    if (RollSpellSave((int)Stat.Wis, (int)Stat.Dex, opponent)) // 1d8(DEX Save)
+                    if (!RollSpellSave((int)Stat.Wis, (int)Stat.Dex, opponent)) // 1d8(DEX Save)
                         damage = RollDie(8);
                     break;
                 case "Druid":
@@ -222,7 +222,7 @@ namespace NBP_Prototype
                         if (redis.CheckIfEffectActive(isPlayer1, "Smiting"))
                         {
                             smite = RollDie(8);
-                            redis.DecrementResource(isPlayer1);
+                            //redis.DecrementResource(isPlayer1);
                             redis.RemoveEffect(isPlayer1, "Smiting");
                         }
                         damage = RollDamage(1, 8, (int)Stat.Str, smite); // 1d8 + STR
@@ -245,7 +245,7 @@ namespace NBP_Prototype
                     }
                     break;
                 case "Sorcerer":
-                    if (RollSpellSave((int)Stat.Cha, (int)Stat.Con, opponent)) // 1d6(CON Save)
+                    if (!RollSpellSave((int)Stat.Cha, (int)Stat.Con, opponent)) // 1d6(CON Save)
                         damage = RollDie(6);
                     break;
                 case "Warlock":
@@ -273,12 +273,15 @@ namespace NBP_Prototype
                 over = redis.ApplyDamage(isPlayer1, damage, Character.Name);
                 if (over)
                 {
-                    redis.MatchOver(); // Probably pass isPlayer
+                    //redis.MatchOver(); // Probably pass isPlayer
+                    return true;
                 }
             }
+
+            return false;
         }
 
-        public void SecondaryAttack(bool isPlayer1, CharacterClass opponent)
+        public bool SecondaryAttack(bool isPlayer1, CharacterClass opponent) // returns true if killing blow
         {
             RedisManager redis = new RedisManager();
             int damage = 0;
@@ -290,7 +293,7 @@ namespace NBP_Prototype
                     {
                         redis.ApplyEffect(isPlayer1, "Raging");
                         redis.DecrementResource(isPlayer1);
-                        redis.AddToCombatLog(Character.Name + " goes into a rage!");
+                        redis.AddToCombatLog(Character.Name + " goes into a rage, doing 2 extra damage on a successful hit!");
                     }
                     break;
                 case "Bard":
@@ -298,11 +301,11 @@ namespace NBP_Prototype
                     {
                         redis.DecrementResource(isPlayer1);
                         redis.AddToCombatLog(Character.Name + " used Hideous Laughter.");
-                        if (RollSpellSave((int)Stat.Cha, (int)Stat.Wis, opponent))
+                        if (!RollSpellSave((int)Stat.Cha, (int)Stat.Wis, opponent))
                         {
-                            redis.ApplyEffect(!isPlayer1, "Restrained");
+                            //redis.ApplyEffect(!isPlayer1, "Restrained");
                             redis.ApplyEffect(!isPlayer1, "Incapacitated");
-                            redis.AddToCombatLog(opponent.Character.Name + " is restrained and incapacitated.");
+                            redis.AddToCombatLog(opponent.Character.Name + " is incapacitated.");
                         }
                         redis.DecrementAction();
                     }
@@ -319,11 +322,13 @@ namespace NBP_Prototype
                     {
                         redis.DecrementResource(isPlayer1);
                         redis.AddToCombatLog(Character.Name + " used Entangle.");
-                        if (RollSpellSave((int)Stat.Wis, (int)Stat.Str, opponent))
+                        if (!RollSpellSave((int)Stat.Wis, (int)Stat.Str, opponent))
                         {
-                            redis.ApplyEffect(!isPlayer1, "Restrained");
-                            redis.AddToCombatLog(opponent.Character.Name + " is restrained.");
+                            redis.ApplyEffect(!isPlayer1, "Incapacitated");
+                            redis.AddToCombatLog(opponent.Character.Name + " is incapacitated!");
                         }
+                        else
+                            redis.AddToCombatLog(opponent.Character.Name + " breaks through the vines, not being incapacitated!");
                         redis.DecrementAction();
                     }
                     break;
@@ -331,15 +336,20 @@ namespace NBP_Prototype
                     if (redis.HasResource(isPlayer1))
                     {
                         redis.DecrementResource(isPlayer1);
+                        redis.AddToCombatLog(Character.Name + " gathers their resolve, pushing past their injuries!");
                         redis.HealDamage(isPlayer1, RollDamage(1, 10, -1, 5), this);
                     }
                     break;
                 case "Monk":
                     if (redis.HasResource(isPlayer1))
                     {
+                        redis.AddToCombatLog(Character.Name + " focuses their Chi, striking with great speed!");
                         for (int i = 0; i < 2; i++)
+                        {
                             if (RollAttack(opponent.ArmorClass))
                                 damage = RollDamage(1, 4, (int)Stat.Dex, 0); // 1d4 + DEX
+                        }
+                        redis.DecrementResource(isPlayer1);
                     }
                     break;
                 case "Paladin":
@@ -355,7 +365,7 @@ namespace NBP_Prototype
                     {
                         redis.ApplyEffect(isPlayer1, "Marking");
                         redis.DecrementResource(isPlayer1);
-                        redis.AddToCombatLog(Character.Name + " applies a Hunter's Mark on the opponent!");
+                        redis.AddToCombatLog(Character.Name + " applies a Hunter's Mark on the opponent! Their attacks deal extra damage.");
                     }
                     break;
                 case "Rogue":
@@ -363,7 +373,10 @@ namespace NBP_Prototype
                     {
                         int sneakAttack;
                         if (redis.HasResource(isPlayer1))
+                        {
                             sneakAttack = RollDie(6);
+                            redis.AddToCombatLog(Character.Name + " has the advantage of stealth, dealing extra damage with this attack!");
+                        }
                         else sneakAttack = 0;
                         damage = RollDamage(1, 4, (int)Stat.Dex, sneakAttack); // 1d4 + DEX + 1d6(Sneak Attack)
                         redis.DecrementResource(isPlayer1);
@@ -371,22 +384,28 @@ namespace NBP_Prototype
                     break;
                 case "Sorcerer":
                     if (redis.HasResource(isPlayer1))
+                    {
+                        redis.AddToCombatLog(Character.Name + " conjures up a bolt of chaotic energy!");
                         if (RollAttack(opponent.ArmorClass))
                             damage = RollDamage(2, 8, -1, RollDie(6)); // 2d8 + 1d6
+                        redis.DecrementResource(isPlayer1);
+                    }
                     break;
                 case "Warlock":
                     if (redis.HasResource(isPlayer1))
                     {
                         redis.ApplyEffect(isPlayer1, "Hexing");
                         redis.DecrementResource(isPlayer1);
-                        redis.AddToCombatLog(Character.Name + " hexes the opponent!");
+                        redis.AddToCombatLog(Character.Name + " hexes the opponent! Their attacks deal extra damage.");
                     }
                     break;
                 case "Wizard":
                     if (redis.HasResource(isPlayer1))
                     {
+                        redis.AddToCombatLog(Character.Name + " fires three magic missiles guaranteed to hit!");
                         damage = RollDamage(3, 4, -1, 3); // 3d4 + 3
                         redis.DecrementAction();
+                        redis.DecrementResource(isPlayer1);
                     }
                     break;
                 default:
@@ -399,9 +418,11 @@ namespace NBP_Prototype
                 over = redis.ApplyDamage(isPlayer1, damage, Character.Name);
                 if (over)
                 {
-                    redis.MatchOver(); // Probably pass isPlayer
+                    //redis.MatchOver(); // Probably pass isPlayer
+                    return true;
                 }
             }
+            return false;
         }
 
     }

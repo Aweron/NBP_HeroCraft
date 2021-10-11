@@ -83,7 +83,7 @@
             this.lblPlayer1.Location = new System.Drawing.Point(12, 9);
             this.lblPlayer1.Name = "lblPlayer1";
             this.lblPlayer1.Size = new System.Drawing.Size(57, 20);
-            this.lblPlayer1.TabIndex = 1;
+            this.lblPlayer1.TabIndex = 0;
             this.lblPlayer1.Text = "label1";
             // 
             // btnPrimary1
@@ -91,7 +91,7 @@
             this.btnPrimary1.Location = new System.Drawing.Point(12, 304);
             this.btnPrimary1.Name = "btnPrimary1";
             this.btnPrimary1.Size = new System.Drawing.Size(200, 60);
-            this.btnPrimary1.TabIndex = 5;
+            this.btnPrimary1.TabIndex = 0;
             this.btnPrimary1.Text = "Primary";
             this.btnPrimary1.UseVisualStyleBackColor = true;
             this.btnPrimary1.Click += new System.EventHandler(this.btnPrimary1_Click);
@@ -99,10 +99,10 @@
             // btnPrimary2
             // 
             this.btnPrimary2.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.btnPrimary2.Location = new System.Drawing.Point(616, 304);
+            this.btnPrimary2.Location = new System.Drawing.Point(564, 304);
             this.btnPrimary2.Name = "btnPrimary2";
             this.btnPrimary2.Size = new System.Drawing.Size(200, 60);
-            this.btnPrimary2.TabIndex = 6;
+            this.btnPrimary2.TabIndex = 2;
             this.btnPrimary2.Text = "Primary";
             this.btnPrimary2.UseVisualStyleBackColor = true;
             this.btnPrimary2.Click += new System.EventHandler(this.btnPrimary2_Click);
@@ -110,7 +110,7 @@
             // picPlayer2
             // 
             this.picPlayer2.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.picPlayer2.Location = new System.Drawing.Point(616, 32);
+            this.picPlayer2.Location = new System.Drawing.Point(564, 32);
             this.picPlayer2.Name = "picPlayer2";
             this.picPlayer2.Size = new System.Drawing.Size(200, 200);
             this.picPlayer2.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
@@ -121,11 +121,11 @@
             // 
             this.lblPlayer2.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.lblPlayer2.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblPlayer2.Location = new System.Drawing.Point(503, 9);
+            this.lblPlayer2.Location = new System.Drawing.Point(451, 9);
             this.lblPlayer2.Name = "lblPlayer2";
             this.lblPlayer2.RightToLeft = System.Windows.Forms.RightToLeft.Yes;
             this.lblPlayer2.Size = new System.Drawing.Size(313, 20);
-            this.lblPlayer2.TabIndex = 2;
+            this.lblPlayer2.TabIndex = 1;
             this.lblPlayer2.Text = "label2";
             // 
             // txtCombatLog
@@ -136,9 +136,10 @@
             this.txtCombatLog.Location = new System.Drawing.Point(218, 32);
             this.txtCombatLog.Multiline = true;
             this.txtCombatLog.Name = "txtCombatLog";
+            this.txtCombatLog.ReadOnly = true;
             this.txtCombatLog.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
-            this.txtCombatLog.Size = new System.Drawing.Size(392, 397);
-            this.txtCombatLog.TabIndex = 9;
+            this.txtCombatLog.Size = new System.Drawing.Size(340, 397);
+            this.txtCombatLog.TabIndex = 23;
             this.txtCombatLog.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             // 
             // btnSecondary1
@@ -146,27 +147,29 @@
             this.btnSecondary1.Location = new System.Drawing.Point(12, 370);
             this.btnSecondary1.Name = "btnSecondary1";
             this.btnSecondary1.Size = new System.Drawing.Size(200, 60);
-            this.btnSecondary1.TabIndex = 10;
+            this.btnSecondary1.TabIndex = 1;
             this.btnSecondary1.Text = "Secondary";
             this.btnSecondary1.UseVisualStyleBackColor = true;
+            this.btnSecondary1.Click += new System.EventHandler(this.btnSecondary1_Click);
             // 
             // btnSecondary2
             // 
             this.btnSecondary2.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.btnSecondary2.Location = new System.Drawing.Point(616, 370);
+            this.btnSecondary2.Location = new System.Drawing.Point(564, 370);
             this.btnSecondary2.Name = "btnSecondary2";
             this.btnSecondary2.Size = new System.Drawing.Size(200, 60);
-            this.btnSecondary2.TabIndex = 11;
+            this.btnSecondary2.TabIndex = 3;
             this.btnSecondary2.Text = "Secondary";
             this.btnSecondary2.UseVisualStyleBackColor = true;
+            this.btnSecondary2.Click += new System.EventHandler(this.btnSecondary2_Click);
             // 
             // btnEndRound
             // 
             this.btnEndRound.Anchor = System.Windows.Forms.AnchorStyles.Bottom;
-            this.btnEndRound.Location = new System.Drawing.Point(297, 476);
+            this.btnEndRound.Location = new System.Drawing.Point(271, 476);
             this.btnEndRound.Name = "btnEndRound";
             this.btnEndRound.Size = new System.Drawing.Size(234, 60);
-            this.btnEndRound.TabIndex = 12;
+            this.btnEndRound.TabIndex = 4;
             this.btnEndRound.Text = "End Round";
             this.btnEndRound.UseVisualStyleBackColor = true;
             this.btnEndRound.Click += new System.EventHandler(this.btnEndRound_Click);
@@ -276,7 +279,7 @@
             this.lblAC2.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.lblAC2.AutoSize = true;
             this.lblAC2.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblAC2.Location = new System.Drawing.Point(735, 275);
+            this.lblAC2.Location = new System.Drawing.Point(683, 275);
             this.lblAC2.Name = "lblAC2";
             this.lblAC2.Size = new System.Drawing.Size(18, 20);
             this.lblAC2.TabIndex = 43;
@@ -287,7 +290,7 @@
             this.lblMaxResource2.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.lblMaxResource2.AutoSize = true;
             this.lblMaxResource2.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblMaxResource2.Location = new System.Drawing.Point(778, 255);
+            this.lblMaxResource2.Location = new System.Drawing.Point(726, 255);
             this.lblMaxResource2.Name = "lblMaxResource2";
             this.lblMaxResource2.Size = new System.Drawing.Size(38, 20);
             this.lblMaxResource2.TabIndex = 42;
@@ -298,7 +301,7 @@
             this.label6.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.label6.AutoSize = true;
             this.label6.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label6.Location = new System.Drawing.Point(759, 255);
+            this.label6.Location = new System.Drawing.Point(707, 255);
             this.label6.Name = "label6";
             this.label6.Size = new System.Drawing.Size(13, 20);
             this.label6.TabIndex = 41;
@@ -309,7 +312,7 @@
             this.lblCurrentResource2.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.lblCurrentResource2.AutoSize = true;
             this.lblCurrentResource2.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblCurrentResource2.Location = new System.Drawing.Point(735, 255);
+            this.lblCurrentResource2.Location = new System.Drawing.Point(683, 255);
             this.lblCurrentResource2.Name = "lblCurrentResource2";
             this.lblCurrentResource2.Size = new System.Drawing.Size(18, 20);
             this.lblCurrentResource2.TabIndex = 40;
@@ -320,7 +323,7 @@
             this.lblMaxHP2.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.lblMaxHP2.AutoSize = true;
             this.lblMaxHP2.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblMaxHP2.Location = new System.Drawing.Point(778, 235);
+            this.lblMaxHP2.Location = new System.Drawing.Point(726, 235);
             this.lblMaxHP2.Name = "lblMaxHP2";
             this.lblMaxHP2.Size = new System.Drawing.Size(38, 20);
             this.lblMaxHP2.TabIndex = 39;
@@ -331,7 +334,7 @@
             this.label15.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.label15.AutoSize = true;
             this.label15.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label15.Location = new System.Drawing.Point(759, 235);
+            this.label15.Location = new System.Drawing.Point(707, 235);
             this.label15.Name = "label15";
             this.label15.Size = new System.Drawing.Size(13, 20);
             this.label15.TabIndex = 38;
@@ -342,7 +345,7 @@
             this.lblCurrentHP2.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.lblCurrentHP2.AutoSize = true;
             this.lblCurrentHP2.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblCurrentHP2.Location = new System.Drawing.Point(735, 235);
+            this.lblCurrentHP2.Location = new System.Drawing.Point(683, 235);
             this.lblCurrentHP2.Name = "lblCurrentHP2";
             this.lblCurrentHP2.Size = new System.Drawing.Size(18, 20);
             this.lblCurrentHP2.TabIndex = 37;
@@ -353,7 +356,7 @@
             this.label17.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.label17.AutoSize = true;
             this.label17.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label17.Location = new System.Drawing.Point(616, 275);
+            this.label17.Location = new System.Drawing.Point(564, 275);
             this.label17.Name = "label17";
             this.label17.Size = new System.Drawing.Size(99, 20);
             this.label17.TabIndex = 36;
@@ -364,7 +367,7 @@
             this.label18.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.label18.AutoSize = true;
             this.label18.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label18.Location = new System.Drawing.Point(616, 255);
+            this.label18.Location = new System.Drawing.Point(564, 255);
             this.label18.Name = "label18";
             this.label18.Size = new System.Drawing.Size(82, 20);
             this.label18.TabIndex = 35;
@@ -375,7 +378,7 @@
             this.label19.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.label19.AutoSize = true;
             this.label19.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label19.Location = new System.Drawing.Point(616, 235);
+            this.label19.Location = new System.Drawing.Point(564, 235);
             this.label19.Name = "label19";
             this.label19.Size = new System.Drawing.Size(60, 20);
             this.label19.TabIndex = 34;
@@ -386,7 +389,7 @@
             this.lblAction.Anchor = System.Windows.Forms.AnchorStyles.Bottom;
             this.lblAction.AutoSize = true;
             this.lblAction.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblAction.Location = new System.Drawing.Point(480, 453);
+            this.lblAction.Location = new System.Drawing.Point(454, 453);
             this.lblAction.Name = "lblAction";
             this.lblAction.Size = new System.Drawing.Size(19, 20);
             this.lblAction.TabIndex = 45;
@@ -397,7 +400,7 @@
             this.label4.Anchor = System.Windows.Forms.AnchorStyles.Bottom;
             this.label4.AutoSize = true;
             this.label4.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label4.Location = new System.Drawing.Point(345, 453);
+            this.label4.Location = new System.Drawing.Point(319, 453);
             this.label4.Name = "label4";
             this.label4.Size = new System.Drawing.Size(129, 20);
             this.label4.TabIndex = 44;
@@ -408,7 +411,7 @@
             this.lblTurn.Anchor = System.Windows.Forms.AnchorStyles.Bottom;
             this.lblTurn.AutoSize = true;
             this.lblTurn.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblTurn.Location = new System.Drawing.Point(366, 432);
+            this.lblTurn.Location = new System.Drawing.Point(340, 432);
             this.lblTurn.Name = "lblTurn";
             this.lblTurn.Size = new System.Drawing.Size(99, 20);
             this.lblTurn.TabIndex = 46;
@@ -428,7 +431,7 @@
             // btnSurr2
             // 
             this.btnSurr2.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.btnSurr2.Location = new System.Drawing.Point(741, 513);
+            this.btnSurr2.Location = new System.Drawing.Point(689, 513);
             this.btnSurr2.Name = "btnSurr2";
             this.btnSurr2.Size = new System.Drawing.Size(75, 23);
             this.btnSurr2.TabIndex = 48;
@@ -440,7 +443,7 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(828, 548);
+            this.ClientSize = new System.Drawing.Size(776, 548);
             this.Controls.Add(this.btnSurr2);
             this.Controls.Add(this.btnSurr1);
             this.Controls.Add(this.lblTurn);

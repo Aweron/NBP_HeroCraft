@@ -25,13 +25,16 @@ namespace NBP_Prototype
 
             redis.Set("action", 1);
 
-            //redis.Set("player1Class", player1Class); // Use mongo ID instead, get character from mongo if program ends prematurely.
-            //redis.Set("player2Class", player2Class); // ^
+            //redis.Set("player1Class", player1Class);
+            //redis.Set("player2Class", player2Class);
+
+            redis.AddItemToSortedSet("damageTracker", player1Class.Character.Name, 0);
+            redis.AddItemToSortedSet("damageTracker", player2Class.Character.Name, 0);
 
             redis.RemoveAllFromList("combatLog");
             redis.PushItemToList("combatLog", "Round started. Fight!");
 
-            redis.Set<bool>("matchInProgress", true);
+            // redis.Set<bool>("matchInProgress", true);
         }
 
         public void SetTurn(bool isPlayer1sTurn)
@@ -44,10 +47,12 @@ namespace NBP_Prototype
             return redis.Get<bool>("player1sTurn");
         }
 
+        /*
         public bool MatchIsInProgress()
         {
             return redis.Get<bool>("matchInProgress");
         }
+        */
 
         public void MatchOver()
         {
@@ -82,7 +87,7 @@ namespace NBP_Prototype
                 hp = 0;
             redis.Set(opponent, hp); // HP after taking damage
             AddToCombatLog(characterName + " has dealt " + damage + " damage.");
-            //DamageTracker(characterName, damage);
+            DamageTracker(characterName, damage);
             if (hp == 0)
                 return true;
             else return false;
@@ -230,7 +235,6 @@ namespace NBP_Prototype
 
         #endregion
 
-        /*
         #region Damage Tracker
 
         public void DamageTracker(string characterName, int damage)
@@ -239,9 +243,13 @@ namespace NBP_Prototype
             redis.AddItemToSortedSet("damageTracker", characterName, oldDamage + damage);
         }
 
-        // TODO: Display/Get Damage Tracker
+        public IDictionary<string, double> GetDamageTracker()
+        {
+            // return redis.GetAllWithScoresFromSortedSet("damageTracker");
+            return redis.GetRangeWithScoresFromSortedSetDesc("damageTracker", 0, -1);
+        }
 
         #endregion
-        */
+
     }
 }
